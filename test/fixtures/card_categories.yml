@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+card1_category1:
+  card: card1
+  category: category1
+
+card1_category2:
+  card: card1
+  category: category2
+
+card1_category3:
+  card: card1
+  category: category3
+
+card1_category4:
+  card: card1
+  category: category4
+
+card1_category5:
+  card: card1
+  category: category5
+
+card2_category1:
+  card: card2
+  category: category1
+
+card2_category2:
+  card: card2
+  category: category2
+
+card2_category3:
+  card: card2
+  category: category3
+
+card2_category4:
+  card: card2
+  category: category4
+
+card2_category5:
+  card: card2
+  category: category5

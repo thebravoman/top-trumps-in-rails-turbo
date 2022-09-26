@@ -1,0 +1,22 @@
+<% if card.face_up? %>
+  <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
+    </a>
+    <div class="p-5">
+      <a href="#">
+          <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">Card title</h5>
+      </a>
+      <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">Card description</p>
+      <% card.card_categories.each do |card_category| %>
+        <%= render card_category %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
+    </a>
+  </div>
+<% end %>
