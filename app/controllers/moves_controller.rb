@@ -3,12 +3,9 @@ class MovesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_top_trump
 
-  def create
-    @move = Move.new(params.require(:move).permit(:card_category_id))
-    @move.top_trump = @top_trump
-    @move.user = current_user
-
-    if @move.save!
+  def update
+    @move = Move.find(params[:id])
+    if @move.update(params.require(:move).permit(:card_category_id, :trick))
       redirect_to top_trump_path(@move.top_trump)
     else
       redirect_to top_trump_path(@move.top_trump), notice: "Error occurred"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_051531) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_27_060803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,12 +38,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_051531) do
   end
 
   create_table "moves", force: :cascade do |t|
-    t.bigint "card_category_id", null: false
+    t.integer "card_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "top_trump_id", null: false
     t.bigint "user_id", null: false
-    t.index ["card_category_id"], name: "index_moves_on_card_category_id"
+    t.bigint "card_id", null: false
+    t.integer "trick"
+    t.index ["card_id"], name: "index_moves_on_card_id"
     t.index ["top_trump_id"], name: "index_moves_on_top_trump_id"
     t.index ["user_id"], name: "index_moves_on_user_id"
   end
@@ -52,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_051531) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state"
+    t.integer "current_trick", default: 1
   end
 
   create_table "users", force: :cascade do |t|
@@ -69,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_051531) do
   add_foreign_key "card_categories", "cards"
   add_foreign_key "card_categories", "categories"
   add_foreign_key "moves", "card_categories"
+  add_foreign_key "moves", "cards"
   add_foreign_key "moves", "top_trumps"
   add_foreign_key "moves", "users"
 end

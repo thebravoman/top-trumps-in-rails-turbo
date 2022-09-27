@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   scope :games do
     resources :top_trumps, only: [:index, :create, :show] do
-      resources :moves, only: [:create]
+      resources :moves, only: [:create, :update]
     end
   end
 

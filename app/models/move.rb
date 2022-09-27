@@ -1,5 +1,6 @@
 class Move < ApplicationRecord
-  belongs_to :card_category
+  belongs_to :card
+  belongs_to :card_category, optional: true
   belongs_to :top_trump
   belongs_to :user
 

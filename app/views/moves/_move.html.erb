@@ -1,0 +1,35 @@
+<% if move.persisted? %>
+  <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
+    </a>
+    <div class="p-5">
+      <a href="#">
+          <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white"><%= move.card.title %></h5>
+      </a>
+      <p class="font-normal text-gray-700 mb-3 dark:text-gray-400"><%= move.card.description %></p>
+      <% disabled = move.card_category != nil %>
+      <% move.card.card_categories.each do |card_category| %>
+        <div class="mt-2">
+          <% color_style = move.card_category == card_category ? "bg-yellow-600" : "bg-blue-600" %>
+          <%= button_to "#{card_category.title} - #{card_category.value}", [@top_trump, move],
+            class: "text-white #{color_style} hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:#{color_style} dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+            disabled: disabled,
+            params: {
+              move: {
+                card_category_id: card_category,
+                trick: move.trick
+              }
+            }
+          %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
+    </a>
+  </div>
+<% end %>

@@ -2,15 +2,21 @@ class TopTrump < ApplicationRecord
 
   has_many :moves
 
-  def card player
-    if player == :player_1
-      card = Card.first
-      card.face_up = true
-    else
-      card = Card.second
-      card.face_up = false
+  def player_1
+    moves.where(trick: 1).order(:created_at).first.try(:user)
+  end
+
+  def player_2
+    moves.where(trick: 1).order(:created_at).second.try(:user)
+  end
+
+  def move user
+    if moves.where(trick: current_trick).empty?
+      Move.create(card: Card.first, trick: current_trick, user: user)
     end
-    card
+    move = moves.where(trick: current_trick, user: user).first
+    move = move || Move.new(card: Card.first, trick: current_trick)
+    move
   end
 
   def state_message player
