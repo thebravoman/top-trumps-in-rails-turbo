@@ -1,10 +1,12 @@
 <!-- This is an example component -->
-<div class="max-w-2xl mx-auto">
-  <%= render @move_player_1 %>
-</div>
-<div class="max-w-2xl mx-auto">
-  <%= render @move_player_2 %>
-</div>
+<% @moves.each do |move| %>
+  <% if move %>
+    <div class="max-w-2xl mx-auto">
+      <%= render move %>
+    </div>
+  <% end %>
+<% end %>
+
 
 <div>
   <p><%= @top_trump.state_message :player_1 %></p>
