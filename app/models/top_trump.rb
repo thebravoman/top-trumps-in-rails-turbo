@@ -16,11 +16,11 @@ class TopTrump < ApplicationRecord
   def state_message player
     if player == :player_1
       case state
-      when "step1"
+      when 1
         "Player 1, pick a category"
-      when "step2"
+      when 2
         "Waiting for Player 2"
-      when "step3"
+      when 3
         "Player 1 wins trick"
       end
     else
@@ -31,8 +31,8 @@ class TopTrump < ApplicationRecord
 
   def update_state
     case state
-    when "step1"
-      update(state: "step2")
+    when 1
+      update(state: state+1)
     end
   end
 

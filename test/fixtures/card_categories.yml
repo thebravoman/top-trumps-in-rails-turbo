@@ -1,41 +1,81 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-card1_category1:
-  card: card1
-  category: category1
+javascript_used:
+  card: javascript
+  category: used
+  value: "65.36%"
 
-card1_category2:
-  card: card1
-  category: category2
+javascript_loved:
+  card: javascript
+  category: loved
+  value: "61.46%"
 
-card1_category3:
-  card: card1
-  category: category3
+javascript_dreaded:
+  card: javascript
+  category: dreaded
+  value: "38.54%"
 
-card1_category4:
-  card: card1
-  category: category4
+javascript_pay:
+  card: javascript
+  category: pay
+  value: "$65,580"
 
-card1_category5:
-  card: card1
-  category: category5
+sql_used:
+  card: sql
+  category: used
+  value: "49.43%"
 
-card2_category1:
-  card: card2
-  category: category1
+sql_loved:
+  card: sql
+  category: loved
+  value: "64.25%"
 
-card2_category2:
-  card: card2
-  category: category2
+sql_dreaded:
+  card: sql
+  category: dreaded
+  value: "35.75%"
 
-card2_category3:
-  card: card2
-  category: category3
+sql_pay:
+  card: sql
+  category: pay
+  value: "$69,108"
 
-card2_category4:
-  card: card2
-  category: category4
+python_used:
+  card: python
+  category: used
+  value: "48.07%"
 
-card2_category5:
-  card: card2
-  category: category5
+python_loved:
+  card: python
+  category: loved
+  value: "67.34%"
+
+python_dreaded:
+  card: python
+  category: dreaded
+  value: "32.66%"
+
+python_pay:
+  card: python
+  category: pay
+  value: "$71,105"
+
+ruby_used:
+  card: ruby
+  category: used
+  value: "6.05%"
+
+ruby_loved:
+  card: ruby
+  category: loved
+  value: "49.99%"
+
+ruby_dreaded:
+  card: ruby
+  category: dreaded
+  value: "50.01%"
+
+ruby_pay:
+  card: ruby
+  category: pay
+  value: "$93,000"

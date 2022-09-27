@@ -10,7 +10,7 @@ class TopTrumpsController < ApplicationController
   end
 
   def create
-    @top_trump = TopTrump.new(state: "step1")
+    @top_trump = TopTrump.new(state: 1)
 
     @top_trump.save
     redirect_to @top_trump, notice: "Game started"

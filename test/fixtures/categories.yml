@@ -4,13 +4,11 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-category1:
-  name: "Category 1"
-category2:
-  name: "Category 2"
-category3:
-  name: "Category 3"
-category4:
-  name: "Category 4"
-category5:
-  name: "Category 5"
+used:
+  title: "Used"
+loved:
+  title: "Loved"
+dreaded:
+  title: "Dreaded"
+pay:
+  title: "Pay"

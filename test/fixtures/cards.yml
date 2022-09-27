@@ -4,8 +4,15 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-card1: {}
-# column: value
-#
-card2: {}
-# column: value
+javascript:
+  title: JavaScript
+  description: Dynamic script language used a lot in browsers. Practically the only thing browsers support
+sql:
+  title: SQL
+  description: S stands for 'Structured' in Structured Query Langage. It is not Standard, as there is no standard. SQL is used to query databases for information
+python:
+  title: Python
+  description: Very popular, especially for Data & AI because academics are kind of stucked in Python and they know the math. Get's a little messy when you try to deploy it on production.
+ruby:
+  title: Ruby
+  description: Used for the development of this game. Quite popular with the Rails framework. Provides sharp knives and a lot of meta programming and you can cut yourself, deep.
