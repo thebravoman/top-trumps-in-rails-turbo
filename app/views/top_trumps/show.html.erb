@@ -3,10 +3,14 @@
   <% if move %>
     <div class="max-w-2xl mx-auto">
       <%= render move %>
+      <% accepts = @top_trump.accepts.where(trick: @top_trump.current_trick, user: move.user) %>
+      <% if move.user == current_user && move.card_category && @moves.count == 2 && @moves.second.card_category && @moves.second.persisted? && accepts.empty? %>
+        <%= button_to "Accept", top_trump_accepts_path(top_trump_id: @top_trump.id),
+          class: "text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:bg-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+      <% end %>
     </div>
   <% end %>
 <% end %>
-
 
 <div>
   <p><%= @top_trump.state_message :player_1 %></p>

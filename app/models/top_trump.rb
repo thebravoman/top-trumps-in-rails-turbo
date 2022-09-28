@@ -1,6 +1,7 @@
 class TopTrump < ApplicationRecord
 
   has_many :moves
+  has_many :accepts
 
   def player_1
     moves.where(trick: 1).order(:created_at).first.try(:user)
