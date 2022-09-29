@@ -5,6 +5,8 @@ class TopTrumpsController < ApplicationController
   def show
     @top_trump = TopTrump.find(params[:id])
     @moves = @top_trump.current_trick_moves current_user
+    @player1_hand = @top_trump.current_hands.first
+    @player2_hand = @top_trump.current_hands.second
   end
 
   def index

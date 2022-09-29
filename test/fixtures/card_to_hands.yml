@@ -1,11 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  top_trump: one
-  trick: 1
-  user: player1
+  hand: one
+  card: javascript
 
 two:
-  top_trump: two
-  trick: 1
-  user: player2
+  hand: two
+  card: sql

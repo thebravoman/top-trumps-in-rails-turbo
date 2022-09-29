@@ -13,5 +13,10 @@
 <% end %>
 
 <div>
+  <%= "Player1 has #{@player1_hand.count} cards - #{@player1_hand.map{|card| card.title}.join(',')}" %>
+  <%= "Player2 has #{@player2_hand.count} cards - #{@player2_hand.map{|card| card.title}.join(',')}" %>
+</div>
+
+<div>
   <p><%= @top_trump.state_message :player_1 %></p>
 </div>

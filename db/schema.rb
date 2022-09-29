@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_122837) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_200803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,8 +30,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_122837) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "value"
+    t.integer "numeric_value"
     t.index ["card_id"], name: "index_card_categories_on_card_id"
     t.index ["category_id"], name: "index_card_categories_on_category_id"
+  end
+
+  create_table "card_to_hands", force: :cascade do |t|
+    t.bigint "hand_id", null: false
+    t.bigint "card_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_card_to_hands_on_card_id"
+    t.index ["hand_id"], name: "index_card_to_hands_on_hand_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -45,6 +55,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_122837) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+  end
+
+  create_table "hands", force: :cascade do |t|
+    t.bigint "top_trump_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "index"
+    t.index ["top_trump_id"], name: "index_hands_on_top_trump_id"
   end
 
   create_table "moves", force: :cascade do |t|
@@ -83,6 +101,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_122837) do
   add_foreign_key "accepts", "users"
   add_foreign_key "card_categories", "cards"
   add_foreign_key "card_categories", "categories"
+  add_foreign_key "card_to_hands", "cards"
+  add_foreign_key "card_to_hands", "hands"
   add_foreign_key "moves", "card_categories"
   add_foreign_key "moves", "cards"
   add_foreign_key "moves", "top_trumps"
