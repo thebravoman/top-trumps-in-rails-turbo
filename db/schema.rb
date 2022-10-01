@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_200803) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_01_201603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_200803) do
     t.datetime "updated_at", null: false
     t.integer "state"
     t.integer "current_trick", default: 1
+    t.bigint "player1_id", null: false
+    t.integer "player2_id"
+    t.integer "lead_id"
+    t.index ["lead_id"], name: "index_top_trumps_on_lead_id"
+    t.index ["player1_id"], name: "index_top_trumps_on_player1_id"
+    t.index ["player2_id"], name: "index_top_trumps_on_player2_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,4 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_200803) do
   add_foreign_key "moves", "cards"
   add_foreign_key "moves", "top_trumps"
   add_foreign_key "moves", "users"
+  add_foreign_key "top_trumps", "users", column: "lead_id"
+  add_foreign_key "top_trumps", "users", column: "player1_id"
+  add_foreign_key "top_trumps", "users", column: "player2_id"
 end

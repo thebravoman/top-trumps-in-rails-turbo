@@ -6,6 +6,15 @@ class TopTrump < ApplicationRecord
   has_many :accepts
   has_many :initial_hands, class_name: "Hand"
 
+  # Need player1, player2 and lead because players join
+  # and then the lead is determined on random
+  #
+  # It is not determined by who plays first
+  belongs_to :player1, class_name: "User"
+  # Player
+  belongs_to :player2, class_name: "User", optional: true
+  belongs_to :lead, class_name: "User", optional: true
+
   # These are optional and if set will
   # be set as the initial cards.
   # Otherwize they will be random.
@@ -14,6 +23,15 @@ class TopTrump < ApplicationRecord
   attr_accessor :cards_for_hand2
 
   after_create :initialize_hands
+
+  before_update :choose_lead
+
+  def choose_lead
+    if self.player2_id_change.try(:first)==nil
+      self.lead = [player1, player2][rand(0..2)]
+    end
+  end
+
 
   def initialize_hands
     if self.cards_for_hand1 == nil || self.cards_for_hand2 == nil
@@ -41,10 +59,17 @@ class TopTrump < ApplicationRecord
     moves.where(trick: 1).order(:created_at).second.try(:user)
   end
 
-  def current_trick_moves current_user
-    hands = current_hands
-    player_1_cards = hands.first
-    player_2_cards = hands.second
+  def non_lead
+    [player1, player2].select {|u| u != lead}.first
+  end
+
+  def current_trick_moves
+    if self.lead == nil
+      return []
+    end
+    hands = current_trick_hands
+    leader_cards = hands.first.cards
+    non_leader_cards = hands.second.cards
     # 1. [move not persisted, nil]
     # 2. Then move is created and we return [move persisted without card_category_id, nil]
     # 3. Then card_category is selected and we return [move persisted with card_category_id, move not persisted]
@@ -53,25 +78,19 @@ class TopTrump < ApplicationRecord
     result = moves.where(trick: current_trick).order(:created_at).to_a
     if result ==[] # 1
       # Player 1 must draw a card
-      [Move.new(user: current_user, trick: current_trick, card: player_1_cards.first), nil]
+      [Move.new(user: lead, trick: current_trick, card: leader_cards.first), nil]
     elsif result.size == 1 && result[0].card_category == nil # 2
       # Player 1 must choose a category
       [result[0], nil]
     elsif result.size == 1 && result[0].card_category != nil # 3
-      # Player 2 must draw a card
-
-      # Check if there already is player 2
-      the_user = player_2
-      # if there isn't and the current player is not player 1 than make the current player player
-      the_user = current_user if player_1 && player_1 != current_user
-      autoselected_card_category = player_1_cards.first.card_categories.where(category: result[0].card_category.category).first
+      autoselected_card_category = non_leader_cards.first.card_categories.where(category: result[0].card_category.category).first
       # On draw The card already has the category so there is no need to update the category after that
-      player_2_move = Move.new(top_trump: self,
-        user: the_user,
+      non_leader_play = Move.new(top_trump: self,
+        user: non_lead,
         trick: current_trick,
-        card: player_2_cards.first,
+        card: non_leader_cards.first,
         card_category: autoselected_card_category)
-      [result[0], player_2_move]
+      [result[0], non_leader_play]
     elsif result.size == 2 && result[1].card_category != nil #
       # Player 2 must choose a category
       result
@@ -82,7 +101,7 @@ class TopTrump < ApplicationRecord
   end
 
   # Current hand is all the cards the player has including the moved one
-  def current_hands
+  def current_trick_hands
     hand1_cards = initial_hands.where(index: 1).first.card_to_hands.to_a.map{ |cth| cth.card }
     hand2_cards = initial_hands.where(index: 2).first.card_to_hands.to_a.map{ |cth| cth.card }
 
@@ -101,7 +120,19 @@ class TopTrump < ApplicationRecord
         hand2_cards << move2.card
       end
     end
-    [hand1_cards, hand2_cards]
+    [Hand.new(top_trump: self, cards: hand1_cards), Hand.new(top_trump: self, cards: hand2_cards)]
+  end
+
+  def top_card user
+    hand1_cards = self.current_trick_hands.first.cards
+    hand2_cards = self.current_trick_hands.second.cards
+
+    selected_card = if user == self.player_1 || self.player_1 == nil
+      hand1_cards.first
+    else
+      hand2_cards.first
+    end
+    selected_card
   end
 
   def move user

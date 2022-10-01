@@ -4,31 +4,19 @@ class MovesController < ApplicationController
   before_action :set_top_trump
 
   def create
-    hand1_cards = @top_trump.current_hands.first
-    hand2_cards = @top_trump.current_hands.second
-
-    selected_card = if current_user == @top_trump.player_1 || @top_trump.player_1 == nil
-      hand1_cards.first
-    else
-      hand2_cards.first
-    end
-
     @move = Move.create!({
       user: current_user,
       top_trump: @top_trump,
       trick: @top_trump.current_trick,
-      card: selected_card}.merge(move_params))
+      card: @top_trump.top_card(current_user)}.merge(move_params)
+    )
 
     redirect_to top_trump_path(@top_trump), notice: "Moved made successfully"
   end
 
   def update
     @move = Move.find(params[:id])
-    if @move.update(
-        {
-          trick: @top_trump.current_trick
-        }.merge(move_params)
-      )
+    if @move.update(move_params)
       redirect_to top_trump_path(@move.top_trump)
     else
       redirect_to top_trump_path(@move.top_trump), notice: "Error occurred"

@@ -3,7 +3,7 @@ require "test_helper"
 class TopTrumpTest < ActiveSupport::TestCase
 
   test "first moves for trick are a Move to be created and nil" do
-    top_trump = TopTrump.create(state: 1)
+    top_trump = TopTrump.create(state: 1, player1: users(:player1))
     current_trick_moves = top_trump.current_trick_moves(users(:player1))
     assert current_trick_moves.size == 2
     assert current_trick_moves[0].persisted? == false
@@ -11,8 +11,8 @@ class TopTrumpTest < ActiveSupport::TestCase
   end
 
   test "after first draw moves are [Player1: Move to be updated, Player2: nil]" do
-    top_trump = TopTrump.create(state: 1)
     player1 = users(:player1)
+    top_trump = TopTrump.create(state: 1, player1: player1)
     Move.create!(top_trump: top_trump, user: player1, trick: top_trump.current_trick, card: Card.first)
 
     current_trick_moves = top_trump.current_trick_moves(player1)
@@ -22,8 +22,8 @@ class TopTrumpTest < ActiveSupport::TestCase
   end
 
   test "after choosing a category moves are [Player1: Move with set category, Player2: Move to be created]" do
-    top_trump = TopTrump.create(state: 1)
     player1 = users(:player1)
+    top_trump = TopTrump.create(state: 1, player1: player1)
     move = Move.create!(top_trump: top_trump, user: player1, trick: top_trump.current_trick, card: Card.first)
     move.update(card_category: Card.first.card_categories.first)
 
@@ -36,10 +36,10 @@ class TopTrumpTest < ActiveSupport::TestCase
   end
 
   test "after choosing a category player2 sees [Player1: Move to be updated, Player2: Move to be created(for them)]" do
-    top_trump = TopTrump.create(state: 1)
     player1 = users(:player1)
+    top_trump = TopTrump.create(state: 1, player1: player1)
     player2 = users(:player2)
-    player1_card = top_trump.current_hands.first.first
+    player1_card = top_trump.current_trick_hands.first.cards.first
     move = Move.create!(top_trump: top_trump, user: player1, trick: top_trump.current_trick, card: player1_card)
     move.update(card_category: player1_card.card_categories.where(category: categories(:loved)).first)
 
@@ -53,14 +53,19 @@ class TopTrumpTest < ActiveSupport::TestCase
   end
 
   test "initial hands are random and contain equal number of cards" do
-    top_trump = TopTrump.create(state: 1)
+    top_trump = TopTrump.create(state: 1, player1: users(:player1))
     assert_equal 2, top_trump.initial_hands.count
     assert_equal 2, top_trump.initial_hands.where(index: 1).first.cards.count
     assert_equal 2, top_trump.initial_hands.where(index: 2).first.cards.count
   end
 
   test "TopTrump can be initialized with cards for each player" do
-    top_trump = TopTrump.create(state: 1, cards_for_hand1: [cards(:javascript), cards(:python)], cards_for_hand2: [cards(:sql), cards(:ruby)])
+    top_trump = TopTrump.create(
+      state: 1,
+      player1: users(:player1),
+      cards_for_hand1: [cards(:javascript), cards(:python)],
+      cards_for_hand2: [cards(:sql), cards(:ruby)]
+    )
     assert_equal cards(:javascript), top_trump.initial_hands.where(index: 1).first.card_to_hands.first.card
     assert_equal cards(:python), top_trump.initial_hands.where(index: 1).first.card_to_hands.last.card
 
@@ -69,7 +74,11 @@ class TopTrumpTest < ActiveSupport::TestCase
   end
 
   test "after a move, hands contain won and lost cards" do
-    top_trump = TopTrump.create(state: 1, cards_for_hand1: [cards(:javascript), cards(:python)], cards_for_hand2: [cards(:sql), cards(:ruby)])
+    top_trump = TopTrump.create(
+      state: 1,
+      player1: users(:player1),
+      cards_for_hand1: [cards(:javascript), cards(:python)],
+      cards_for_hand2: [cards(:sql), cards(:ruby)])
 
     Move.create!(
       top_trump: top_trump,
@@ -87,13 +96,18 @@ class TopTrumpTest < ActiveSupport::TestCase
       card_category: card_categories(:sql_used)
     )
 
-    assert_equal [cards(:python), cards(:javascript), cards(:sql)], top_trump.current_hands[0].to_a
-    assert_equal [cards(:ruby)], top_trump.current_hands[1].to_a
+    assert_equal [cards(:python), cards(:javascript), cards(:sql)], top_trump.current_trick_hands.first.cards.to_a
+    assert_equal [cards(:ruby)], top_trump.current_trick_hands.second.cards.to_a
 
   end
 
   test "after a move, and accepts, trick is updated" do
-    top_trump = TopTrump.create(state: 1, cards_for_hand1: [cards(:javascript), cards(:python)], cards_for_hand2: [cards(:sql), cards(:ruby)])
+    top_trump = TopTrump.create(
+      state: 1,
+      player1: users(:player1),
+      cards_for_hand1: [cards(:javascript), cards(:python)],
+      cards_for_hand2: [cards(:sql), cards(:ruby)]
+    )
 
     Move.create!(
       top_trump: top_trump,

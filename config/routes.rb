@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   scope :games do
-    resources :top_trumps, only: [:index, :create, :show] do
+    resources :top_trumps, only: [:index, :create, :show, :update] do
       resources :moves, only: [:create, :update]
       resources :accepts, only: [:create]
     end
