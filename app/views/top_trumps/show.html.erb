@@ -1,6 +1,8 @@
 <div>
+  <h1 class="font-bold text-4xl">Room name: <%= @top_trump.name %></h1>
   <p class="text-xl"><%= @top_trump.state_message :player_1 %></p>
 </div>
+
 
 <% if @top_trump.lead == nil %>
   <% if current_user == @top_trump.player1 %>
