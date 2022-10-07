@@ -2,6 +2,14 @@ require "test_helper"
 
 class TopTrumpTest < ActiveSupport::TestCase
 
+  test "#name" do
+    top_trump = top_trumps(:one)
+    player1 = users(:player1)
+
+    assert_equal top_trump.player1, player1
+    assert_equal top_trump.name, "#{top_trump.id} - #{player1.name}"
+  end
+
   test "first moves for trick are a Move to be created and nil" do
     top_trump = TopTrump.create(state: 1, player1: users(:player1))
     current_trick_moves = top_trump.current_trick_moves(users(:player1))

@@ -1,1 +1,9 @@
-<%= button_to "Start", top_trumps_path %>
+<div>
+  <%= button_to "Start a new game", top_trumps_path, class: "text-blue-600 hover:text-purple-500" %>
+</div>
+
+<p>Free rooms you can join: </p>
+<div id="free-rooms">
+  <p class="only:inline hidden">There are no free rooms</p>
+  <%= render @top_trumps %>
+</div>

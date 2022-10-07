@@ -2,12 +2,10 @@
 <%# move without selected card_category (CREATED and can be updated) %>
 <%# move that is not persisted (NOT CREATED and is the next to be made and should have a button) %>
 <%# no move - waiting for others to make their moves %>
+<h5 class="text-gray-900 font-bold text-1xl tracking-tight mb-2"><%= move.user.name %></h5>
 <% if move.persisted? %>
   <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
-        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
-    </a>
-    <div class="p-5">
+    <div class="p-5"
       <a href="#">
           <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white"><%= move.card.title %></h5>
       </a>
@@ -30,11 +28,6 @@
     </div>
   </div>
 <% else %>
-  <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
-        <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="">
-    </a>
-  </div>
   <% if move.user == current_user %>
     <%= button_to "Draw top card", [@top_trump, move],
       class: "text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:bg-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800",

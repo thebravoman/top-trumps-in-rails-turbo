@@ -11,3 +11,11 @@ player1:
 player2:
   email: player2@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+
+kiko:
+  email: kiko@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+
+misho:
+  email: misho@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
