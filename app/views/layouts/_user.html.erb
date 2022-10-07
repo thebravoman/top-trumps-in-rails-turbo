@@ -1,0 +1,7 @@
+<div class="text-right">
+<% if current_user %>
+  <p> Current user: <%= current_user.name %> </p>
+<% else %>
+  <%= link_to "Log in", new_user_session_path %>
+<% end %>
+</div>
