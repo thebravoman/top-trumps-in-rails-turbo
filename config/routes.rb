@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  root "home#index"
+
   scope :games do
     resources :top_trumps, only: [:index, :create, :show, :update] do
       resources :moves, only: [:create, :update]
