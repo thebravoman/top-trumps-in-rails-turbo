@@ -170,4 +170,8 @@ class TopTrump < ApplicationRecord
     end
   end
 
+  def name
+    "#{id} - #{player1.name}"
+  end
+
 end

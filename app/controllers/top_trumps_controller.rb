@@ -9,7 +9,7 @@ class TopTrumpsController < ApplicationController
   end
 
   def index
-
+    @top_trumps = TopTrump.where(player2: nil)
   end
 
   def update
